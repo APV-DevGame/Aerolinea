@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://wfcnik5q2se"]
+
+[ext_resource type="Script" uid="uid://cmlpmut1bceql" path="res://Scripts/main.gd" id="1_jjgbg"]
+[ext_resource type="Script" uid="uid://bxbku148odkhs" path="res://Scripts/aerolinea.gd" id="2_jjvhh"]
+[ext_resource type="Script" uid="uid://dcecgq0dr1ifo" path="res://Scripts/avion.gd" id="3_kry3j"]
+[ext_resource type="Script" uid="uid://c14gjkd3ro3vj" path="res://Scenes/pasajero.gd" id="4_21xkr"]
+[ext_resource type="Script" uid="uid://dy5je3sg63jxb" path="res://Scripts/asiento.gd" id="5_kry3j"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_jjgbg")
+
+[node name="Aerolinea" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_jjvhh")
+precio_normal = 1200
+precio_VIP = 500
+
+[node name="Avion" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_kry3j")
+
+[node name="Pasajero" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_21xkr")
+
+[node name="Asiento" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("5_kry3j")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
