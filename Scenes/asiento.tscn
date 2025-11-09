@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccymkd8p761lh"]
+
+[ext_resource type="Script" uid="uid://dy5je3sg63jxb" path="res://Scripts/asiento.gd" id="1_kg6br"]
+[ext_resource type="Theme" uid="uid://cxr55vrxorria" path="res://Resources/asiento.tres" id="2_aaonf"]
+
+[node name="Asiento" type="Control"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 16.0
+offset_bottom = 16.0
+script = ExtResource("1_kg6br")
+
+[node name="State" type="Panel" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_aaonf")

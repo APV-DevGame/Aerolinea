@@ -1,45 +1,138 @@
-[gd_scene load_steps=6 format=3 uid="uid://wfcnik5q2se"]
+[gd_scene load_steps=7 format=3 uid="uid://wfcnik5q2se"]
 
-[ext_resource type="Script" uid="uid://cmlpmut1bceql" path="res://Scripts/main.gd" id="1_jjgbg"]
+[ext_resource type="Theme" uid="uid://cdb6puk6mn2p0" path="res://Resources/label.tres" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://bxbku148odkhs" path="res://Scripts/aerolinea.gd" id="2_jjvhh"]
-[ext_resource type="Script" uid="uid://dcecgq0dr1ifo" path="res://Scripts/avion.gd" id="3_kry3j"]
-[ext_resource type="Script" uid="uid://c14gjkd3ro3vj" path="res://Scenes/pasajero.gd" id="4_21xkr"]
-[ext_resource type="Script" uid="uid://dy5je3sg63jxb" path="res://Scripts/asiento.gd" id="5_kry3j"]
+[ext_resource type="Script" uid="uid://bgqglerkcylxx" path="res://addons/SmoothScroll/SmoothScrollContainer.gd" id="3_jjvhh"]
+[ext_resource type="Script" uid="uid://b7h0k2h2qwlqv" path="res://addons/SmoothScroll/scroll_damper/expo_scroll_damper.gd" id="4_kry3j"]
+
+[sub_resource type="Resource" id="Resource_21xkr"]
+script = ExtResource("4_kry3j")
+
+[sub_resource type="Resource" id="Resource_6bp64"]
+script = ExtResource("4_kry3j")
 
 [node name="Main" type="Node"]
-script = ExtResource("1_jjgbg")
 
 [node name="Aerolinea" type="Control" parent="."]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_bo1nx")
 script = ExtResource("2_jjvhh")
 precio_normal = 1200
 precio_VIP = 500
 
-[node name="Avion" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("3_kry3j")
+[node name="HBoxContainer" type="HBoxContainer" parent="Aerolinea"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Pasajero" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("4_21xkr")
+[node name="Data" type="Control" parent="Aerolinea/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
 
-[node name="Asiento" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("5_kry3j")
+[node name="VBoxContainer" type="VBoxContainer" parent="Aerolinea/HBoxContainer/Data"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Stats" type="VBoxContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats"]
+layout_mode = 2
+text = "Horario: Mañana"
+horizontal_alignment = 1
+
+[node name="BarHorario" type="ProgressBar" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Pasajeros" type="GridContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+columns = 43
+
+[node name="Aviones" type="VBoxContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Boletos" type="Control" parent="Aerolinea/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Aerolinea/HBoxContainer/Boletos"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cliente"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Vuelo"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Asiento"
+horizontal_alignment = 1
+
+[node name="Label4" type="Label" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Horario"
+horizontal_alignment = 1
+
+[node name="SmoothScrollContainer" type="ScrollContainer" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("3_jjvhh")
+wheel_scroll_damper = SubResource("Resource_21xkr")
+dragging_scroll_damper = SubResource("Resource_6bp64")
+allow_horizontal_scroll = false
+hide_scrollbar_over_time = true
+scrollbar_hide_time = 1.0
+metadata/_custom_type_script = "uid://bgqglerkcylxx"
+
+[node name="Boletos" type="VBoxContainer" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer/SmoothScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 2
+
+[node name="TimerHorario" type="Timer" parent="."]
+wait_time = 3.0
 autostart = true
 
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="TimerHorario" to="Aerolinea" method="_on_timer_horario_timeout"]

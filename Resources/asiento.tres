@@ -1,0 +1,23 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cxr55vrxorria"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qdsyc"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.11764706, 0.11764706, 0.11764706, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.43904907, 0.43904918, 0.4390489, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[resource]
+resource_local_to_scene = true
+Panel/styles/panel = SubResource("StyleBoxFlat_qdsyc")
