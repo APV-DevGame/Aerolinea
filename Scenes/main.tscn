@@ -1,9 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://wfcnik5q2se"]
+[gd_scene load_steps=17 format=3 uid="uid://wfcnik5q2se"]
 
 [ext_resource type="Theme" uid="uid://cdb6puk6mn2p0" path="res://Resources/label.tres" id="1_bo1nx"]
 [ext_resource type="Script" uid="uid://bxbku148odkhs" path="res://Scripts/aerolinea.gd" id="2_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://dkq33x7kokyad" path="res://Sprites/restart-svgrepo-com.svg" id="3_6bp64"]
+[ext_resource type="Shader" uid="uid://bkt6m1cm33s1" path="res://Shader/boton.gdshader" id="3_344ge"]
 [ext_resource type="Script" uid="uid://bgqglerkcylxx" path="res://addons/SmoothScroll/SmoothScrollContainer.gd" id="3_jjvhh"]
+[ext_resource type="Texture2D" uid="uid://d0lbvuyh3wxef" path="res://Sprites/play-svgrepo-com.svg" id="3_kry3j"]
+[ext_resource type="Script" uid="uid://cpf1q63h1ygb5" path="res://Scripts/data.gd" id="3_ynf5e"]
 [ext_resource type="Script" uid="uid://b7h0k2h2qwlqv" path="res://addons/SmoothScroll/scroll_damper/expo_scroll_damper.gd" id="4_kry3j"]
+[ext_resource type="Texture2D" uid="uid://bncy6nmk83jlj" path="res://Sprites/next-svgrepo-com.svg" id="5_344ge"]
+[ext_resource type="Texture2D" uid="uid://b6ki84j0nub4a" path="res://Sprites/pause-1006-svgrepo-com.svg" id="5_hptm8"]
+[ext_resource type="FontFile" uid="uid://djihhucyf3lkv" path="res://Font/Inter_18pt-Regular.ttf" id="9_6iyac"]
+[ext_resource type="Script" uid="uid://gdc6cgh70skm" path="res://Scripts/ui_sounds.gd" id="11_d1ilt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ynf5e"]
+shader = ExtResource("3_344ge")
+shader_parameter/force_color = Color(0.30980393, 0.30980393, 0.30980393, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_344ge"]
+shader = ExtResource("3_344ge")
+shader_parameter/force_color = Color(0.30980393, 0.30980393, 0.30980393, 1)
 
 [sub_resource type="Resource" id="Resource_21xkr"]
 script = ExtResource("4_kry3j")
@@ -13,14 +29,13 @@ script = ExtResource("4_kry3j")
 
 [node name="Main" type="Node"]
 
-[node name="Aerolinea" type="Control" parent="."]
+[node name="Aerolinea" type="Control" parent="." groups=["Aerolinea"]]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_bo1nx")
 script = ExtResource("2_jjvhh")
 precio_normal = 1200
 precio_VIP = 500
@@ -32,11 +47,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 0
 
 [node name="Data" type="Control" parent="Aerolinea/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
+script = ExtResource("3_ynf5e")
+play_texture = ExtResource("3_kry3j")
+stop_texture = ExtResource("5_hptm8")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Aerolinea/HBoxContainer/Data"]
 layout_mode = 1
@@ -53,27 +72,51 @@ theme_override_constants/separation = 0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats"]
 layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer2/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
+text = "Horario:"
+horizontal_alignment = 1
+
+[node name="HorarioActual" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer2/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
+text = "Mañana"
+horizontal_alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer2/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
+text = "Pasajeros:"
+horizontal_alignment = 1
+
+[node name="PasajerosActual" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer2/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
+text = "144"
+horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats"]
 layout_mode = 2
 theme_override_constants/separation = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 0
-
-[node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Horario:"
-horizontal_alignment = 1
-
-[node name="Label2" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Mañana"
-horizontal_alignment = 1
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer"]
 layout_mode = 2
@@ -83,12 +126,15 @@ theme_override_constants/separation = 0
 [node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Boletos VIP:"
+theme = ExtResource("1_bo1nx")
+text = "VIP:"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer2"]
+[node name="VIP" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
 text = "0"
 horizontal_alignment = 1
 
@@ -100,12 +146,15 @@ theme_override_constants/separation = 0
 [node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Boletos Normales:"
+theme = ExtResource("1_bo1nx")
+text = "Normales:"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer3"]
+[node name="Normal" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer3"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
 text = "0"
 horizontal_alignment = 1
 
@@ -117,12 +166,15 @@ theme_override_constants/separation = 0
 [node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
 text = "Total:"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer4"]
+[node name="Total" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer4"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
 text = "0"
 horizontal_alignment = 1
 
@@ -134,12 +186,15 @@ theme_override_constants/separation = 0
 [node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer5"]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Boletos No Vendidos:"
+theme = ExtResource("1_bo1nx")
+text = "No Vendidos:"
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer5"]
+[node name="NoVendidos" type="Label" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer/HBoxContainer5"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
 text = "0"
 horizontal_alignment = 1
 
@@ -148,8 +203,41 @@ unique_name_in_owner = true
 layout_mode = 2
 show_percentage = false
 
+[node name="HBoxContainer3" type="HBoxContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+alignment = 1
+
+[node name="Reset" type="TextureButton" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer3"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_ynf5e")
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture_normal = ExtResource("3_6bp64")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="PlayStop" type="TextureButton" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer3"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_344ge")
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture_normal = ExtResource("3_kry3j")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Next" type="TextureButton" parent="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer3"]
+unique_name_in_owner = true
+material = SubResource("ShaderMaterial_344ge")
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture_normal = ExtResource("5_344ge")
+ignore_texture_size = true
+stretch_mode = 5
+
 [node name="Pasajeros" type="GridContainer" parent="Aerolinea/HBoxContainer/Data/VBoxContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 columns = 43
 
@@ -157,6 +245,22 @@ columns = 43
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="AsientoHover" type="Label" parent="Aerolinea/HBoxContainer/Data"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -48.0
+offset_top = 40.0
+offset_bottom = 88.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("9_6iyac")
+text = "D4"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Boletos" type="Control" parent="Aerolinea/HBoxContainer"]
 layout_mode = 2
@@ -173,36 +277,50 @@ grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="Label" type="Label" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
 text = "Cliente"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label3" type="Label" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
 text = "Vuelo"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Asiento"
+theme = ExtResource("1_bo1nx")
+text = "Asientos"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Label4" type="Label" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_horizontal = 3
+theme = ExtResource("1_bo1nx")
 text = "Horario"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SmoothScrollContainer" type="ScrollContainer" parent="Aerolinea/HBoxContainer/Boletos/VBoxContainer2/VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("3_jjvhh")
@@ -218,10 +336,18 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/separation = 2
+theme_override_constants/separation = 0
 
-[node name="TimerHorario" type="Timer" parent="."]
+[node name="TimerHorario" type="Timer" parent="Aerolinea"]
+unique_name_in_owner = true
 wait_time = 3.0
-autostart = true
 
-[connection signal="timeout" from="TimerHorario" to="Aerolinea" method="_on_timer_horario_timeout"]
+[node name="UI_Sounds" type="Node" parent="." groups=["Sound"]]
+unique_name_in_owner = true
+script = ExtResource("11_d1ilt")
+root_path = NodePath("..")
+
+[connection signal="pressed" from="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer3/Reset" to="Aerolinea/HBoxContainer/Data" method="_on_reset_pressed"]
+[connection signal="pressed" from="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer3/PlayStop" to="Aerolinea/HBoxContainer/Data" method="_on_play_stop_pressed"]
+[connection signal="pressed" from="Aerolinea/HBoxContainer/Data/VBoxContainer/Stats/HBoxContainer3/Next" to="Aerolinea/HBoxContainer/Data" method="_on_next_pressed"]
+[connection signal="timeout" from="Aerolinea/TimerHorario" to="Aerolinea" method="_on_timer_horario_timeout"]

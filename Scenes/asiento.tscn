@@ -1,17 +1,43 @@
-[gd_scene load_steps=3 format=3 uid="uid://ccymkd8p761lh"]
+[gd_scene load_steps=4 format=3 uid="uid://ccymkd8p761lh"]
 
 [ext_resource type="Script" uid="uid://dy5je3sg63jxb" path="res://Scripts/asiento.gd" id="1_kg6br"]
-[ext_resource type="Theme" uid="uid://cxr55vrxorria" path="res://Resources/asiento.tres" id="2_aaonf"]
 
-[node name="Asiento" type="Control"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kg6br"]
+resource_local_to_scene = true
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.11764706, 0.11764706, 0.11764706, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.43904907, 0.43904918, 0.4390489, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_aaonf"]
+resource_local_to_scene = true
+Panel/styles/panel = SubResource("StyleBoxFlat_kg6br")
+
+[node name="Animacion" type="Control"]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="Asiento" type="Control" parent="."]
+custom_minimum_size = Vector2(16, 16)
 anchors_preset = 0
 offset_right = 16.0
 offset_bottom = 16.0
 script = ExtResource("1_kg6br")
 
-[node name="State" type="Panel" parent="."]
+[node name="State" type="Panel" parent="Asiento"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -19,4 +45,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_aaonf")
+mouse_filter = 2
+theme = SubResource("Theme_aaonf")
+
+[connection signal="mouse_entered" from="Asiento" to="Asiento" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Asiento" to="Asiento" method="_on_mouse_exited"]

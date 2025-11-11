@@ -10,12 +10,13 @@ class_name Avion
 @onready var bar_vip: ProgressBar = %BarVIP
 @onready var bar_normal: ProgressBar = %BarNormal
 @onready var mutex: Mutex = Mutex.new()
+@onready var ui_sounds = get_tree().get_first_node_in_group("Sound")
+@onready var aerolinea: Aerolinea = get_tree().get_first_node_in_group("Aerolinea")
 
 #MAX 258 = ASIENTOS_NORMALES + ASIENTOS_VIP
-const ASIENTOS_NORMALES = 79 
-const ASIENTOS_VIP = 50 
+const ASIENTOS_NORMALES = 45 
+const ASIENTOS_VIP = 15 
 
-var aerolinea: Aerolinea = null
 
 var id_avion: String = ""
 var disponible: bool = true
@@ -40,17 +41,14 @@ func set_data(data: Dictionary) -> void:
 	update_ui()
 
 func update_ui() -> void:
-	destino_label.text = str(Aerolinea.Destino.keys()[destino])
+	destino_label.text = str(Aerolinea.Destino.keys()[destino]).capitalize()
 	estado_label.text = "Disponible" if disponible else "No Disponible"
 	bar_vip.max_value = ASIENTOS_VIP
 	bar_vip.value = c_vip
 	bar_normal.max_value = ASIENTOS_NORMALES
 	bar_normal.value = c_normales
-
-func get_size_plane() -> Vector2i:
-	return Vector2i.ZERO
+	
 func create_seats() -> void:
-	# Limpiar el contenedor principal y diccionarios
 	for child in seats_container.get_children():
 		child.queue_free()
 	
@@ -69,7 +67,6 @@ func create_seats() -> void:
 	
 	# Crear columnas VIP
 	crear_columnas_zona(columnas_normales, columnas_vip, ASIENTOS_VIP, Aerolinea.Type.VIP)
-
 func crear_columnas_zona(columna_inicio: int, num_columnas: int, total_asientos: int, tipo: Aerolinea.Type) -> void:
 	var asientos_creados = 0
 	
@@ -84,47 +81,49 @@ func crear_columnas_zona(columna_inicio: int, num_columnas: int, total_asientos:
 		# PRIMER GRUPO: 3 asientos superiores
 		for fila in range(3):
 			var posicion = Vector2i(fila, num_columna_real)
-			var seat: Asiento = seat_scene.instantiate()
-			columna_container.add_child(seat)
-			
 			var id = "%s%d" % [letras_fila[fila], num_columna_real + 1]
 			var tipo_real = tipo if asientos_creados < total_asientos else Aerolinea.Type.EMPTY
 			
-			seat.set_data({ "id": id, "avion": self, "tipo": tipo_real, "pos": posicion })
-			
-			asientos[seat] = null
-			asientos_por_posicion[posicion] = seat
+			crear_asiento(posicion, id, tipo_real, columna_container)
 			
 			if tipo_real != Aerolinea.Type.EMPTY:
 				asientos_creados += 1
 		
-		# ESPACIADOR CENTRAL - ahora es un asiento EMPTY especial
-		var spacer_seat: Asiento = seat_scene.instantiate()
-		columna_container.add_child(spacer_seat)
-		spacer_seat.set_data({
-			"id": "SPACER_%d" % num_columna_real,
-			"avion": self,
-			"tipo": Aerolinea.Type.EMPTY,
-			"pos": Vector2i(-1, num_columna_real)  # Posición especial para espaciadores
-		})
-		asientos[spacer_seat] = null
+		# ESPACIADOR CENTRAL
+		crear_espaciador(num_columna_real, columna_container)
 		
 		# SEGUNDO GRUPO: 3 asientos inferiores
 		for fila in range(3, 6):
 			var posicion = Vector2i(fila, num_columna_real)
-			var seat: Asiento = seat_scene.instantiate()
-			columna_container.add_child(seat)
-			
 			var id = "%s%d" % [letras_fila[fila], num_columna_real + 1]
 			var tipo_real = tipo if asientos_creados < total_asientos else Aerolinea.Type.EMPTY
 			
-			seat.set_data({ "id": id, "avion": self, "tipo": tipo_real, "pos": posicion })
-			
-			asientos[seat] = null
-			asientos_por_posicion[posicion] = seat
+			crear_asiento(posicion, id, tipo_real, columna_container)
 			
 			if tipo_real != Aerolinea.Type.EMPTY:
 				asientos_creados += 1
+
+func crear_asiento(posicion: Vector2i, id: String, tipo: Aerolinea.Type, contenedor: VBoxContainer) -> void:
+	var seat: Asiento = seat_scene.instantiate().get_node("Asiento")
+	contenedor.add_child(seat.get_parent())
+	seat.set_data({ "id": id, "avion": self, "tipo": tipo, "pos": posicion })
+	ui_sounds.connect_signals(seat)
+	seat.aerolinea = aerolinea
+	
+	asientos[seat] = null
+	asientos_por_posicion[posicion] = seat
+
+func crear_espaciador(num_columna_real: int, contenedor: VBoxContainer) -> void:
+	var spacer_seat: Asiento = seat_scene.instantiate().get_node("Asiento")
+	contenedor.add_child(spacer_seat.get_parent())
+	spacer_seat.set_data({
+		"id": "SPACER_%d" % num_columna_real,
+		"avion": self,
+		"tipo": Aerolinea.Type.EMPTY,
+		"pos": Vector2i(-1, num_columna_real)
+	})
+	asientos[spacer_seat] = null
+	spacer_seat.aerolinea = aerolinea
 	
 func add_pasajero(asiento: Asiento, pasajero: Pasajero) -> void:
 	asientos[asiento] = pasajero
