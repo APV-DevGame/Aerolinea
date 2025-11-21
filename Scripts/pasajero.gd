@@ -21,6 +21,7 @@ func buy_boleto() -> void:
 	boletos["is_vip"] = Aerolinea.Type.VIP if (randf() < 0.25) else Aerolinea.Type.NORMAL
 	boletos["personas"] = randi_range(1, 3)
 	boletos["avion"] = aerolinea.get_plane(boletos["destino"])
+	var arr: Array = []
 	
 	var avion = boletos["avion"]
 	var tipo = boletos["is_vip"]
