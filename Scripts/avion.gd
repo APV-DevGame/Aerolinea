@@ -14,8 +14,8 @@ class_name Avion
 @onready var aerolinea: Aerolinea = get_tree().get_first_node_in_group("Aerolinea")
 
 #MAX 258 = ASIENTOS_NORMALES + ASIENTOS_VIP
-const ASIENTOS_NORMALES = 45 
-const ASIENTOS_VIP = 15 
+const ASIENTOS_NORMALES = 75
+const ASIENTOS_VIP = 25
 
 
 var id_avion: String = ""
